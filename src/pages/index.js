@@ -14,6 +14,16 @@ const MenuItem = (props) => {
   return <div className="text-white">{props.text}</div>;
 };
 
+const NetflixLogo = (props) => {
+  return (
+    <GatsbyImage
+      className="rounded w-48"
+      image={props.image}
+      alt={props.text}
+    />
+  );
+};
+
 const MovieCard = (props) => {
   return (
     <GatsbyImage
@@ -36,6 +46,12 @@ const MovieHorizontal = (props) => {
 
 export const query = graphql`
   query {
+    image0: file(relativePath: { eq: "netflix_logo.svg" }) {
+      childImageSharp {
+        gatsbyImageData(placeholder: BLURRED)
+      }
+    }
+
     image1: file(relativePath: { eq: "1.webp" }) {
       childImageSharp {
         gatsbyImageData(placeholder: BLURRED)
@@ -175,7 +191,13 @@ const IndexPage = (props) => {
       <div className="flex justify-between px-16 pt-4 items-center">
         {/* 1 nav a sx */}
         <div className="flex space-x-4 items-center">
-          <div className="text-white text-3xl pr-8">Netflix</div>
+          <StaticImage
+            className="w-32 mr-12"
+            src="../images/netflix_logo.svg"
+            alt="netflix logo"
+            placeholder="blurred"
+          />
+
           <MenuItem text="Home" />
           <MenuItem text="TV Shows" />
           <MenuItem text="Movies" />
