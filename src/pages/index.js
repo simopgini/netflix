@@ -1,63 +1,25 @@
 import React from "react";
 import Helmet from "react-helmet";
-import { StaticImage, getImage, GatsbyImage } from "gatsby-plugin-image";
-import { graphql } from "gatsby";
+import { StaticImage, getImage } from "gatsby-plugin-image";
+import { graphql, Link } from "gatsby";
 import {
   SearchIcon,
   GiftIcon,
   BellIcon,
   UserCircleIcon,
-  UserIcon,
 } from "@heroicons/react/outline";
-
-const MenuItem = (props) => {
-  return <div className="text-white">{props.text}</div>;
-};
-
-const NetflixLogo = (props) => {
-  return (
-    <GatsbyImage
-      className="rounded w-48"
-      image={props.image}
-      alt={props.text}
-    />
-  );
-};
-
-const MovieCard = (props) => {
-  return (
-    <GatsbyImage
-      className="rounded w-48"
-      image={props.image}
-      alt={props.text}
-    />
-  );
-};
-
-const MovieHorizontal = (props) => {
-  return (
-    <GatsbyImage
-      className="rounded w-48"
-      image={props.image}
-      alt={props.text}
-    />
-  );
-};
+import HorizontalMovies from "../components/HorizontalMovies";
+import VerticalMovies from "../components/VerticalMovies";
+import MenuItem from "../components/MenuItem";
 
 export const query = graphql`
   query {
-    image0: file(relativePath: { eq: "netflix_logo.svg" }) {
-      childImageSharp {
-        gatsbyImageData(placeholder: BLURRED)
-      }
-    }
-
     image1: file(relativePath: { eq: "1.webp" }) {
       childImageSharp {
         gatsbyImageData(placeholder: BLURRED)
       }
     }
-    image2: file(relativePath: { eq: "2.webp" }) {
+    image2: file(relativePath: { eq: "sex-education.jpg" }) {
       childImageSharp {
         gatsbyImageData(placeholder: BLURRED)
       }
@@ -184,11 +146,19 @@ const IndexPage = (props) => {
         <title>Netflix</title>
       </Helmet>
 
-      <div className="absolute" style={{ zIndex: -1 }}>
-        <StaticImage className="w-screen" src="../images/0-1.webp" />
+      {/* background image */}
+      <div className="absolute top-0" style={{ zIndex: -1 }}>
+        <StaticImage
+          className="w-screen"
+          src="../images/0-1.webp"
+          alt="background"
+        />
+        <div className="absolute top-0 h-1/3 w-full bg-gradient-to-b from-netflix-black  to-transparent"></div>
+        {/* background gradient - image shadow*/}
+        <div className="absolute bottom-0 h-1/5 w-full bg-gradient-to-b from-transparent to-netflix-black"></div>
       </div>
 
-      <div className="flex justify-between px-16 pt-4 items-center">
+      <div className="flex justify-between mx-16 mt-4 items-center">
         {/* 1 nav a sx */}
         <div className="flex space-x-4 items-center">
           <StaticImage
@@ -205,106 +175,130 @@ const IndexPage = (props) => {
           <MenuItem text="My List" />
         </div>
 
+        {/* icons on the top right hand corner */}
         <div className="flex space-x-4 text-white">
-          <SearchIcon className="text-white h-7 w-7" />
-          <GiftIcon className="text-white h-7 w-7" />
-          <BellIcon className="text-white h-7 w-7" />
-          <UserCircleIcon className="text-white h-7 w-7" />
+          <div className="cursor-pointer">
+            <SearchIcon className=" text-white h-7 w-7" />
+          </div>
+          <div className="cursor-pointer">
+            <GiftIcon className="text-white h-7 w-7" />
+          </div>
+
+          <div className="cursor-pointer">
+            <BellIcon className="text-white h-7 w-7" />
+          </div>
+
+          <div className="cursor-pointer">
+            <UserCircleIcon className="text-white h-7 w-7" />
+          </div>
         </div>
       </div>
 
-      <div className="px-16 pt-40 max-w-lg">
+      <div className="mx-16 pt-40 max-w-xl">
         <StaticImage
           src="../images/0-2.webp"
           alt="and Bones"
           placeholder="blurred"
         />
 
-        <p className="py-4 text-white">
+        <p className="py-5 text-white text-xl">
           Dark forces conspire against orphan mapmaker Alina when she unleashes
           an extraordinary power that could change the fate of her war-torn
           world.
         </p>
+
+        {/* buttons */}
+
         <div className="flex space-x-2">
-          <div className="bg-white text-black rounded px-8 py-2">Play</div>
-          <div className="bg-white bg-opacity-25 text-white rounded px-8 py-2">
+          <Link
+            to="/youtube-trailer"
+            className="relative z-10 bg-white text-black rounded px-8 py-2 font-semibold transition-colors hover:bg-gray-200"
+          >
+            Play
+          </Link>
+
+          <Link
+            to="/series-details"
+            className="relative z-10 font-semibold text-white bg-white bg-opacity-30 rounded px-8 py-2 transition-opacity hover:bg-opacity-10"
+          >
             More info
-          </div>
+          </Link>
         </div>
       </div>
 
-      <h2 className="text-white text-xl	pt-16 pb-2 pl-16">Netflix Originals</h2>
-      <div className="flex pl-16 space-x-2">
-        <MovieCard text="Scheda 1" image={getImage(props.data.image1)} />
-        <MovieCard text="Scheda 2" image={getImage(props.data.image2)} />
-        <MovieCard text="Scheda 3" image={getImage(props.data.image3)} />
-        <MovieCard text="Scheda 4" image={getImage(props.data.image4)} />
-        <MovieCard text="Scheda 5" image={getImage(props.data.image5)} />
-        <MovieCard text="Scheda 6" image={getImage(props.data.image6)} />
-      </div>
+      <VerticalMovies
+        title="Netflix Originals"
+        movies={[
+          getImage(props.data.image1),
+          getImage(props.data.image2),
+          getImage(props.data.image3),
+          getImage(props.data.image4),
+          getImage(props.data.image5),
+          getImage(props.data.image6),
+        ]}
+      />
 
-      <h2 className="text-white text-xl	pt-16 pb-2 pl-16">
-        Continue Watching for Simona
-      </h2>
-      <div className="flex pl-16 space-x-2">
-        <MovieHorizontal text="Scheda 1" image={getImage(props.data.image10)} />
-        <MovieHorizontal text="Scheda 2" image={getImage(props.data.image11)} />
-        <MovieHorizontal text="Scheda 3" image={getImage(props.data.image12)} />
-        <MovieHorizontal text="Scheda 4" image={getImage(props.data.image13)} />
-        <MovieHorizontal text="Scheda 5" image={getImage(props.data.image14)} />
-        <MovieHorizontal text="Scheda 6" image={getImage(props.data.image15)} />
-      </div>
+      <HorizontalMovies
+        title="Continue Watching for Simona"
+        movies={[
+          getImage(props.data.image10),
+          getImage(props.data.image11),
+          getImage(props.data.image12),
+          getImage(props.data.image13),
+          getImage(props.data.image14),
+          getImage(props.data.image15),
+        ]}
+      />
 
-      <h2 className="text-white text-xl	pt-16 pb-2 pl-16">Trending Now</h2>
-      <div className="flex pl-16 space-x-2">
-        <MovieHorizontal text="Scheda 1" image={getImage(props.data.image16)} />
-        <MovieHorizontal text="Scheda 2" image={getImage(props.data.image17)} />
-        <MovieHorizontal text="Scheda 3" image={getImage(props.data.image18)} />
-        <MovieHorizontal text="Scheda 4" image={getImage(props.data.image19)} />
-        <MovieHorizontal text="Scheda 5" image={getImage(props.data.image20)} />
-        <MovieHorizontal text="Scheda 6" image={getImage(props.data.image21)} />
-      </div>
+      <HorizontalMovies
+        title="Trending Now"
+        movies={[
+          getImage(props.data.image16),
+          getImage(props.data.image17),
+          getImage(props.data.image18),
+          getImage(props.data.image19),
+          getImage(props.data.image20),
+          getImage(props.data.image21),
+        ]}
+      />
 
-      <h2 className="text-white text-xl	pt-16 pb-2 pl-16">My List</h2>
-      <div className="flex pl-16 space-x-2">
-        <MovieHorizontal text="Scheda 1" image={getImage(props.data.image22)} />
-        <MovieHorizontal text="Scheda 2" image={getImage(props.data.image23)} />
-        <MovieHorizontal text="Scheda 3" image={getImage(props.data.image24)} />
-        <MovieHorizontal text="Scheda 4" image={getImage(props.data.image25)} />
-        <MovieHorizontal text="Scheda 5" image={getImage(props.data.image26)} />
-        <MovieHorizontal text="Scheda 6" image={getImage(props.data.image27)} />
-      </div>
+      <HorizontalMovies
+        title="My List"
+        movies={[
+          getImage(props.data.image22),
+          getImage(props.data.image23),
+          getImage(props.data.image24),
+          getImage(props.data.image25),
+          getImage(props.data.image26),
+          getImage(props.data.image27),
+        ]}
+      />
 
+      {/* footer */}
       <div className="flex space-x-44 px-16 pt-28 pb-18">
-        <div className="text-white pb-4 text-gray-400">
+        <div className="pb-4 text-gray-400">
           Audio and Subtitles
-          <div className="text-white pt-4 pb-4 text-gray-400">Media Center</div>
-          <div className="text-white pb-4 text-gray-400">Privacy</div>
-          <div className="text-white pb-4 text-gray-400">Contact Us</div>
+          <div className="pt-4 pb-4 text-gray-400">Media Center</div>
+          <div className="pb-4 text-gray-400">Privacy</div>
+          <div className="pb-4 text-gray-400">Contact Us</div>
         </div>
 
-        <div className="text-white pb-16 text-gray-400">
+        <div className="pb-16 text-gray-400">
           Audio Description
-          <div className="text-white pt-4 pb-4 text-gray-400">
-            Investor Relations
-          </div>
-          <div className="text-white pb-4 text-gray-400">Legal Notices</div>
+          <div className="pt-4 pb-4 text-gray-400">Investor Relations</div>
+          <div className="pb-4 text-gray-400">Legal Notices</div>
         </div>
 
-        <div className="text-white pb-16 text-gray-400">
+        <div className="pb-16 text-gray-400">
           Help Center
-          <div className="text-white pt-4 pb-4 text-gray-400">Jobs</div>
-          <div className="text-white pb-4 text-gray-400">
-            Cookie Preferences
-          </div>
+          <div className="pt-4 pb-4 text-gray-400">Jobs</div>
+          <div className="pb-4 text-gray-400">Cookie Preferences</div>
         </div>
 
-        <div className="text-white pb-16 text-gray-400">
+        <div className="pb-16 text-gray-400">
           Gift Cards
-          <div className="text-white pt-4 pb-4 text-gray-400">Terms of Use</div>
-          <div className="text-white pb-4 text-gray-400">
-            Corporate Information
-          </div>
+          <div className="pt-4 pb-4 text-gray-400">Terms of Use</div>
+          <div className="pb-4 text-gray-400">Corporate Information</div>
         </div>
       </div>
     </React.Fragment>

@@ -11,6 +11,7 @@ module.exports = {
       options: {
         name: "images",
         path: "./src/images/",
+        containerClass: "embedVideo-container",
       },
       __key: "images",
     },

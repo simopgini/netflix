@@ -1,11 +1,15 @@
 module.exports = {
   purge: ["./src/**/*.{js,jsx,ts,tsx}"],
-  darkMode: false, // or 'media' or 'class'
+  darkMode: false,
   theme: {
-    extend: {},
+    extend: {
+      colors: {
+        "netflix-black": "#141414",
+      },
+    },
   },
   variants: {
-    extend: {},
+    extend: { animation: ["motion-safe"] },
   },
   plugins: [require("@tailwindcss/typography")],
   mode: "jit",
